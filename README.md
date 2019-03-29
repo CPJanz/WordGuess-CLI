@@ -16,8 +16,8 @@ Example [video](https://drive.google.com/file/d/1r489U2NeFyenaY67-lBnL4SBhhr1m_x
 
 ## Packages used
 
-fs - To read from the text file of saved quotes
-inquirer - To handle user input.
+* fs - To read from the text file of saved quotes
+* inquirer - To handle user input.
 
 ## Lessons Learned
 
