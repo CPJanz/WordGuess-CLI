@@ -1,8 +1,8 @@
 const Word = require("./word");
 const inquirer = require("inquirer");
 const fs = require("fs");
-const STARTING_LIVES = 2;
-let phraseList = ["hi"]
+const STARTING_LIVES = 5;
+let phraseList = ["It is a good day to die! - Worf"]
 let lives;
 let gameWord;
 
@@ -22,12 +22,12 @@ function game() {
 }
 
 function takeTurn() {
-    let promptString = gameWord.toString() + "   Lives Remaining " + lives + " ||      Select a letter:";
+    printNewTurn();
     // Shows current word status and prompts the player for a guess
     inquirer.prompt([{
         type: "input",
         name: "guessedLetter",
-        message: promptString,
+        message: "Select a letter:",
         filter: function(input) {
             return input.toLowerCase();
         },
@@ -52,18 +52,24 @@ function takeTurn() {
             // Correct guess, at least one letter was revealed by the guess.
             if (gameWord.hasWon()) {
                 //Game has been won, display congratutlations and prompt for new game
+                console.clear();
                 console.log("You Won!");
                 promptForNewGame();
             } else {
                 // Game has not been won, prompt for another letter.
+                console.clear();
+                console.log("Correct!!")
                 takeTurn();
             }
         } else {
             // Incorrect guess, (no letters were revealed by the guess). Decrement lives and check for game loss.
             lives--;
             if (lives > 0) {
+                console.clear();
+                console.log("Sorry, none of those.");
                 takeTurn();
             } else {
+                console.clear();
                 console.log("You Lost!")
                 promptForNewGame();
             }
@@ -72,11 +78,11 @@ function takeTurn() {
 }
 
 function promptForNewGame() {
-    let promptString = "Play again?";
+    printNewTurn();
     inquirer.prompt([{
         type: "confirm",
         name: "newGame",
-        message: promptString
+        message: "Play again?"
     }]).then(function(answer) {
         if (answer.newGame) {
             game();
@@ -88,7 +94,11 @@ function promptForNewGame() {
 
 function printNewGame() {
     console.clear();
-    console.log("Welcome to quote guesser!\n\n");
+    console.log("Welcome to quote guesser!\n");
     console.log("I have cleverly hidden a quote, can you guess letters to reveal it before you run out of lives!?\n\n");
     console.log("Good Luck!\n")
+}
+
+function printNewTurn() {
+    console.log("\n\n     " + gameWord.toString() + "\n\nLives Left: " + lives);
 }
